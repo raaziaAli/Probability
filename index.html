@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Probability Carnival 🎪</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Fredoka:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     THE PROBABILITY CARNIVAL — colorful, chunky, playful
+     ========================================================= */
+  :root{
+    --pink: #ff3d8b;
+    --yellow: #ffd23f;
+    --teal: #06d6a0;
+    --blue: #118ab2;
+    --purple: #9b5de5;
+    --orange: #ff7b29;
+    --cream: #fff8e7;
+    --ink: #1a1423;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-lg: 10px 10px 0 var(--ink);
+    --shadow-sm: 4px 4px 0 var(--ink);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{
+    font-family:'Fredoka', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+
+  /* Striped carnival background */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgba(255,61,139,0.04) 0 40px,
+        rgba(255,210,63,0.04) 40px 80px,
+        rgba(6,214,160,0.04) 80px 120px,
+        rgba(17,138,178,0.04) 120px 160px
+      );
+    z-index:-2;
+    pointer-events:none;
+  }
+
+  /* Floating confetti */
+  .confetti{
+    position:fixed;
+    width:14px; height:14px;
+    z-index:-1;
+    opacity:0.6;
+    animation: float 9s linear infinite;
+  }
+  @keyframes float{
+    0%{transform: translateY(110vh) rotate(0);}
+    100%{transform: translateY(-10vh) rotate(720deg);}
+  }
+
+  /* ================= HEADER ================= */
+  header{
+    text-align:center;
+    padding:40px 20px 30px;
+    position:relative;
+  }
+  .tag{
+    display:inline-block;
+    background: var(--yellow);
+    color: var(--ink);
+    font-weight:700;
+    padding:6px 18px;
+    border:3px solid var(--ink);
+    border-radius:99px;
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-3deg);
+    margin-bottom:18px;
+    font-size:0.95rem;
+    letter-spacing:1px;
+  }
+  h1{
+    font-family:'Bungee', cursive;
+    font-size: clamp(2.4rem, 7vw, 5.5rem);
+    line-height:1.05;
+    color: var(--pink);
+    text-shadow: 4px 4px 0 var(--ink);
+    letter-spacing:1px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1 .word-2{
+    color: var(--teal);
+    display:inline-block;
+  }
+  .subtitle{
+    margin-top:18px;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight:500;
+    max-width:640px;
+    margin-left:auto; margin-right:auto;
+  }
+
+  /* Ticket counter */
+  .ticket-bar{
+    margin: 30px auto;
+    background: var(--ink);
+    color: var(--yellow);
+    border-radius: 14px;
+    padding: 14px 28px;
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    font-family:'Bungee', cursive;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow);
+    border: 3px solid var(--yellow);
+  }
+  .ticket-bar .count{
+    background: var(--pink);
+    color: white;
+    padding: 4px 16px;
+    border-radius: 8px;
+    min-width: 60px;
+    text-align:center;
+    transition: transform 0.3s;
+  }
+  .ticket-bar .count.pop{ animation: pop 0.5s ease; }
+  @keyframes pop{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.3) rotate(-5deg);}
+  }
+
+  /* ================= NAV TABS ================= */
+  nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+    padding: 0 20px 30px;
+    max-width:1200px;
+    margin:0 auto;
+  }
+  .tab{
+    font-family:'Fredoka', sans-serif;
+    font-weight:700;
+    font-size: 1.05rem;
+    background: white;
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    padding: 12px 22px;
+    border-radius: 16px;
+    cursor:pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s, box-shadow 0.15s;
+    display:flex; align-items:center; gap:8px;
+  }
+  .tab:hover{ transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+  .tab:active{ transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
+  .tab.active{ background: var(--yellow); }
+  .tab:nth-child(1).active{ background: var(--pink); color:white; }
+  .tab:nth-child(2).active{ background: var(--teal); color:white; }
+  .tab:nth-child(3).active{ background: var(--blue); color:white; }
+  .tab:nth-child(4).active{ background: var(--purple); color:white; }
+  .tab:nth-child(5).active{ background: var(--orange); color:white; }
+
+  /* ================= GAME PANELS ================= */
+  main{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+  .panel{
+    display:none;
+    animation: slideIn 0.5s ease;
+  }
+  .panel.active{ display:block; }
+  @keyframes slideIn{
+    from{opacity:0; transform: translateY(20px);}
+    to{opacity:1; transform: translateY(0);}
+  }
+
+  .card{
+    background: white;
+    border: 4px solid var(--ink);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    position:relative;
+    overflow:hidden;
+  }
+  .card-title{
+    font-family:'Bungee', cursive;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    margin-bottom: 8px;
+  }
+  .card-sub{
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+    opacity:0.85;
+    font-weight: 500;
+  }
+  .badge{
+    display:inline-block;
+    font-family:'Caveat', cursive;
+    font-size: 1.3rem;
+    padding: 2px 14px;
+    background: var(--yellow);
+    border: 2px dashed var(--ink);
+    border-radius: 99px;
+    transform: rotate(-2deg);
+    margin-bottom: 12px;
+  }
+
+  /* ================= GAME 1: LIKELIHOOD METER ================= */
+  .meter-wrap{
+    background: linear-gradient(90deg,
+      var(--pink) 0%, var(--orange) 25%, var(--yellow) 50%, var(--teal) 75%, var(--blue) 100%);
+    height: 60px;
+    border-radius: 30px;
+    border: 4px solid var(--ink);
+    position:relative;
+    margin: 30px 0;
+    box-shadow: var(--shadow);
+  }
+  .meter-labels{
+    display:flex;
+    justify-content:space-between;
+    font-weight:700;
+    font-size: 0.95rem;
+    margin-top: 14px;
+    color: var(--ink);
+  }
+  .meter-labels span{
+    flex:1;
+    text-align:center;
+  }
+  .marker{
+    position:absolute;
+    top:-20px;
+    width: 40px; height: 100px;
+    transform: translateX(-50%);
+    transition: left 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  .marker svg{ width:100%; height:100%; filter: drop-shadow(2px 4px 0 var(--ink)); }
+
+  .scenario-box{
+    background: var(--cream);
+    border: 3px dashed var(--ink);
+    border-radius: 18px;
+    padding: 24px;
+    margin: 24px 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-align:center;
+    min-height: 90px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  .choice-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .choice{
+    font-family:'Fredoka', sans-serif;
+    font-weight:700;
+    font-size: 1rem;
+    padding: 16px 12px;
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    cursor:pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.15s;
+  }
+  .choice:hover{ transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+  .choice.correct{ background: var(--teal); color: white; animation: shake 0.4s; }
+  .choice.wrong{ background: var(--pink); color: white; animation: shake 0.4s; }
+  @keyframes shake{
+    0%,100%{transform: translateX(0);}
+    25%{transform: translateX(-8px);}
+    75%{transform: translateX(8px);}
+  }
+
+  .feedback{
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display:none;
+    border: 3px solid var(--ink);
+  }
+  .feedback.show{ display:block; animation: slideIn 0.3s ease; }
+  .feedback.good{ background: #d4f7dc; }
+  .feedback.bad{ background: #ffe0e7; }
+
+  /* ================= GAME 2: SPINNER ================= */
+  .spinner-stage{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items:center;
+    margin-top: 20px;
+  }
+  @media (max-width: 720px){
+    .spinner-stage{ grid-template-columns: 1fr; }
+  }
+  .spinner-container{
+    position:relative;
+    width: 100%;
+    aspect-ratio:1;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .spinner-pointer{
+    position:absolute;
+    top: -10px; left:50%;
+    transform: translateX(-50%);
+    width:0; height:0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 36px solid var(--ink);
+    filter: drop-shadow(2px 4px 0 rgba(0,0,0,0.2));
+    z-index: 3;
+  }
+  #spinnerSvg{
+    width:100%; height:100%;
+    transition: transform 4s cubic-bezier(.17,.67,.32,1);
+    filter: drop-shadow(4px 6px 0 var(--ink));
+  }
+  .spin-stats{
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    padding: 20px;
+  }
+  .stat-row{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin: 10px 0;
+    font-weight: 600;
+  }
+  .stat-color{
+    width: 24px; height: 24px;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+  }
+  .stat-bars{
+    flex:1;
+    height: 14px;
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 99px;
+    overflow:hidden;
+  }
+  .stat-fill{
+    height:100%;
+    transition: width 0.5s;
+  }
+  .stat-num{
+    font-family:'Bungee', cursive;
+    font-size: 1rem;
+    min-width: 70px;
+    text-align:right;
+  }
+
+  .big-btn{
+    font-family:'Bungee', cursive;
+    font-size: 1.3rem;
+    padding: 16px 28px;
+    background: var(--pink);
+    color: white;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all 0.15s;
+    margin: 8px 4px;
+    letter-spacing: 1px;
+  }
+  .big-btn:hover{ transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--ink); }
+  .big-btn:active{ transform: translate(2px,2px); box-shadow: 4px 4px 0 var(--ink); }
+  .big-btn:disabled{ opacity:0.5; cursor:not-allowed; }
+  .big-btn.alt{ background: var(--teal); }
+  .big-btn.alt2{ background: var(--blue); }
+  .big-btn.alt3{ background: var(--purple); }
+
+  /* ================= GAME 3: SAMPLE SPACE ================= */
+  .ss-controls{
+    display:flex; gap: 16px; flex-wrap:wrap;
+    align-items: center;
+    margin: 20px 0;
+    background: var(--cream);
+    padding: 20px;
+    border-radius: 16px;
+    border: 3px solid var(--ink);
+  }
+  .ss-controls label{
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  select{
+    font-family:'Fredoka', sans-serif;
+    font-weight:600;
+    font-size: 1rem;
+    padding: 8px 14px;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+  }
+  .ss-grid{
+    display:grid;
+    gap: 6px;
+    margin: 24px 0;
+    overflow-x:auto;
+    padding: 4px;
+  }
+  .ss-cell{
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 6px;
+    text-align:center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .ss-cell.highlighted{
+    background: var(--yellow);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-sm);
+  }
+  .ss-cell.dimmed{ opacity: 0.3; }
+  .ss-header{
+    background: var(--ink);
+    color: var(--yellow);
+    font-family:'Bungee', cursive;
+    border-radius: 12px;
+  }
+
+  .question-pills{
+    display:flex; flex-wrap:wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .pill{
+    background: white;
+    border: 3px solid var(--ink);
+    padding: 8px 16px;
+    border-radius: 99px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.15s;
+    box-shadow: var(--shadow-sm);
+  }
+  .pill:hover{ transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink);}
+  .pill.active{ background: var(--purple); color: white; }
+
+  .prob-display{
+    font-family: 'Bungee', cursive;
+    font-size: 2rem;
+    text-align:center;
+    background: var(--ink);
+    color: var(--yellow);
+    padding: 16px;
+    border-radius: 16px;
+    margin-top: 16px;
+  }
+
+  /* ================= GAME 4: SIMULATION ================= */
+  .sim-stage{
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 16px;
+  }
+  .sim-display{
+    font-family:'Bungee', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    text-align: center;
+    margin: 16px 0;
+    min-height: 60px;
+  }
+  .sim-chart{
+    margin: 20px 0;
+    height: 200px;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    background: white;
+    position:relative;
+    overflow: hidden;
+  }
+  .sim-chart svg{ width: 100%; height:100%; }
+  .sim-stats{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .sim-stat{
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    text-align:center;
+    box-shadow: var(--shadow-sm);
+  }
+  .sim-stat .label{
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+  .sim-stat .value{
+    font-family:'Bungee', cursive;
+    font-size: 1.6rem;
+    margin-top: 4px;
+  }
+
+  /* ================= GAME 5: BOSS / QUIZ ================= */
+  .boss-q{
+    background: var(--cream);
+    border: 3px dashed var(--ink);
+    border-radius: 18px;
+    padding: 24px;
+    margin: 20px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align:center;
+    min-height: 100px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .progress-track{
+    height: 24px;
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 99px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .progress-fill{
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink), var(--orange), var(--yellow), var(--teal));
+    transition: width 0.5s;
+  }
+  .star-prize{
+    text-align:center;
+    margin-top: 24px;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  .star-prize .stars{
+    font-size: 3rem;
+    letter-spacing: 8px;
+  }
+
+  /* Floating mascot */
+  .mascot{
+    position: fixed;
+    bottom: 20px; right: 20px;
+    width: 90px; height: 90px;
+    z-index: 10;
+    animation: bounce 2.5s ease infinite;
+    cursor: pointer;
+    filter: drop-shadow(3px 5px 0 rgba(0,0,0,0.2));
+  }
+  @keyframes bounce{
+    0%,100%{transform: translateY(0) rotate(-3deg);}
+    50%{transform: translateY(-12px) rotate(3deg);}
+  }
+  .mascot-bubble{
+    position:fixed;
+    bottom: 120px; right: 30px;
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-shadow: var(--shadow-sm);
+    max-width: 240px;
+    font-weight: 600;
+    z-index: 11;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .mascot-bubble.show{ display:block; }
+  .mascot-bubble::after{
+    content:'';
+    position:absolute;
+    bottom: -14px;
+    right: 30px;
+    width: 0; height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 14px solid var(--ink);
+  }
+
+  /* Concept tooltip */
+  .concept-card{
+    background: var(--blue);
+    color: white;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .concept-card strong{
+    display:block;
+    font-family:'Bungee', cursive;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: var(--yellow);
+  }
+
+  /* footer */
+  footer{
+    text-align:center;
+    padding: 30px 20px 60px;
+    font-family:'Caveat', cursive;
+    font-size: 1.4rem;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 600px){
+    .card{ padding: 20px; border-radius: 18px; }
+    h1{ text-shadow: 3px 3px 0 var(--ink); }
+    .mascot{ width: 70px; height: 70px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- floating confetti -->
+<div class="confetti" style="left:5%; background:var(--pink); animation-delay:0s;"></div>
+<div class="confetti" style="left:18%; background:var(--yellow); animation-delay:1.4s; border-radius:50%;"></div>
+<div class="confetti" style="left:32%; background:var(--teal); animation-delay:3s;"></div>
+<div class="confetti" style="left:50%; background:var(--purple); animation-delay:0.8s; border-radius:50%;"></div>
+<div class="confetti" style="left:67%; background:var(--orange); animation-delay:2.2s;"></div>
+<div class="confetti" style="left:82%; background:var(--blue); animation-delay:4s; border-radius:50%;"></div>
+<div class="confetti" style="left:93%; background:var(--pink); animation-delay:5.5s;"></div>
+
+<header>
+  <span class="tag">★ GRADE 7 PROBABILITY ★</span>
+  <h1>The Probability<br/><span class="word-2">Carnival 🎪</span></h1>
+  <p class="subtitle">Five wild games. One question: <em>How likely is it?</em><br/>Win tickets. Master probability. No quarters required.</p>
+  <div class="ticket-bar">
+    🎟️ TICKETS <span class="count" id="ticketCount">0</span>
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" data-panel="p1">🎯 <span>Likelihood Lane</span></button>
+  <button class="tab" data-panel="p2">🌀 <span>The Spinner</span></button>
+  <button class="tab" data-panel="p3">🎲 <span>Sample Space</span></button>
+  <button class="tab" data-panel="p4">⚡ <span>Coin Storm</span></button>
+  <button class="tab" data-panel="p5">👑 <span>Boss Round</span></button>
+</nav>
+
+<main>
+
+<!-- ===================== PANEL 1: LIKELIHOOD ===================== -->
+<section class="panel active" id="p1">
+  <div class="card">
+    <span class="badge">Game 1 of 5 — earn 1 🎟️ per win</span>
+    <h2 class="card-title">🎯 Likelihood Lane</h2>
+    <p class="card-sub">Slide the marker to where each event lives on the probability line. From <strong>impossible</strong> (0) to <strong>certain</strong> (1).</p>
+
+    <div class="meter-wrap">
+      <div class="marker" id="marker" style="left:50%;">
+        <svg viewBox="0 0 40 100"><polygon points="20,0 35,30 25,30 25,100 15,100 15,30 5,30" fill="#1a1423"/></svg>
+      </div>
+    </div>
+    <div class="meter-labels">
+      <span>Impossible<br/>0</span>
+      <span>Unlikely<br/>¼</span>
+      <span>50–50<br/>½</span>
+      <span>Likely<br/>¾</span>
+      <span>Certain<br/>1</span>
+    </div>
+
+    <div class="scenario-box" id="scenario">Loading event…</div>
+
+    <div class="choice-grid" id="choices"></div>
+    <div class="feedback" id="fb1"></div>
+
+    <div style="margin-top:24px; text-align:center;">
+      <button class="big-btn alt" id="nextScenario">Next Event ➡</button>
+    </div>
+
+    <div class="concept-card">
+      <strong>📘 Big idea</strong>
+      Every chance event lives on the line from 0 to 1. The closer to 1, the more likely it is to happen. Exactly ½ means it's just as likely to happen as not — like a fair coin flip.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PANEL 2: SPINNER ===================== -->
+<section class="panel" id="p2">
+  <div class="card">
+    <span class="badge">Game 2 — predict, spin, compare!</span>
+    <h2 class="card-title">🌀 The Mystery Spinner</h2>
+    <p class="card-sub">Predict the probability of each color. Then spin it 100s of times and watch <strong>theoretical</strong> meet <strong>experimental</strong>.</p>
+
+    <div class="spinner-stage">
+      <div class="spinner-container">
+        <div class="spinner-pointer"></div>
+        <svg id="spinnerSvg" viewBox="-110 -110 220 220"></svg>
+      </div>
+      <div class="spin-stats">
+        <h3 style="font-family:'Bungee', cursive; margin-bottom:14px; font-size:1.2rem;">Live results</h3>
+        <div id="spinStats"></div>
+        <div style="text-align:center; margin-top:16px;">
+          <button class="big-btn" id="spinOne">SPIN 1×</button>
+          <button class="big-btn alt" id="spinHundred">SPIN 100×</button>
+        </div>
+        <div style="text-align:center; margin-top:8px;">
+          <button class="big-btn alt3" id="resetSpinner" style="font-size:0.95rem; padding:10px 20px;">↻ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <strong>📘 Theoretical vs Experimental</strong>
+      <em>Theoretical probability</em> is what the math predicts (e.g., red = ⅜ = 0.375). <em>Experimental probability</em> is what actually happened (e.g., 38 reds in 100 spins = 0.38). The more times you spin, the closer they get. This is called the <strong>Law of Large Numbers</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PANEL 3: SAMPLE SPACE ===================== -->
+<section class="panel" id="p3">
+  <div class="card">
+    <span class="badge">Game 3 — map every possible outcome</span>
+    <h2 class="card-title">🎲 Sample Space Lab</h2>
+    <p class="card-sub">When two things happen together, list <em>every possible</em> outcome in a grid. Then count what you want, divide by the total — that's the probability of a <strong>compound event</strong>.</p>
+
+    <div class="ss-controls">
+      <div>
+        <label for="exp1">Experiment 1:</label>
+        <select id="exp1">
+          <option value="coin">Flip a coin (H, T)</option>
+          <option value="die" selected>Roll a die (1–6)</option>
+          <option value="color">Pick a color (R, G, B)</option>
+        </select>
+      </div>
+      <div>
+        <label for="exp2">Experiment 2:</label>
+        <select id="exp2">
+          <option value="coin">Flip a coin (H, T)</option>
+          <option value="die" selected>Roll a die (1–6)</option>
+          <option value="color">Pick a color (R, G, B)</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="ssGrid" class="ss-grid"></div>
+
+    <div>
+      <p style="font-weight:700; margin-bottom:8px;">🔎 What's the probability that…</p>
+      <div class="question-pills" id="ssQuestions"></div>
+    </div>
+    <div class="prob-display" id="ssAnswer">P(event) = ?</div>
+
+    <div class="concept-card">
+      <strong>📘 Compound events</strong>
+      A compound event is made of two or more simple events. Build a grid (sample space), highlight the outcomes that match, then divide: <strong>P(event) = favorable ÷ total</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PANEL 4: COIN STORM SIMULATION ===================== -->
+<section class="panel" id="p4">
+  <div class="card">
+    <span class="badge">Game 4 — simulations & long-run frequency</span>
+    <h2 class="card-title">⚡ Coin Storm</h2>
+    <p class="card-sub">Flip <strong>thousands</strong> of coins. Watch the experimental probability of heads zigzag toward 0.5. <em>This is the Law of Large Numbers in motion.</em></p>
+
+    <div class="sim-stage">
+      <div class="sim-display" id="simLast">⚪</div>
+
+      <div class="sim-chart" id="simChart">
+        <svg viewBox="0 0 400 200" preserveAspectRatio="none">
+          <!-- 0.5 line -->
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#1a1423" stroke-width="2" stroke-dasharray="6,6"/>
+          <text x="6" y="96" font-family="Bungee" font-size="12" fill="#1a1423">P = 0.5</text>
+          <polyline id="simLine" fill="none" stroke="#ff3d8b" stroke-width="3" stroke-linejoin="round" points=""/>
+        </svg>
+      </div>
+
+      <div class="sim-stats">
+        <div class="sim-stat">
+          <div class="label">Total Flips</div>
+          <div class="value" id="simTotal">0</div>
+        </div>
+        <div class="sim-stat">
+          <div class="label">Heads</div>
+          <div class="value" id="simHeads" style="color:var(--pink);">0</div>
+        </div>
+        <div class="sim-stat">
+          <div class="label">Tails</div>
+          <div class="value" id="simTails" style="color:var(--blue);">0</div>
+        </div>
+        <div class="sim-stat">
+          <div class="label">P(Heads)</div>
+          <div class="value" id="simRatio">—</div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:18px;">
+        <button class="big-btn" id="flip10">+10 FLIPS</button>
+        <button class="big-btn alt" id="flip100">+100 FLIPS</button>
+        <button class="big-btn alt2" id="flip1000">+1000 FLIPS</button>
+        <button class="big-btn alt3" id="resetSim" style="font-size:0.95rem; padding:12px 20px;">↻ Reset</button>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <strong>📘 What you should see</strong>
+      The first few flips can land anywhere — maybe 7 heads out of 10 (0.70). But as you flip more, the experimental probability of heads settles closer and closer to the theoretical 0.50. <em>Random in the short run, predictable in the long run.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PANEL 5: BOSS QUIZ ===================== -->
+<section class="panel" id="p5">
+  <div class="card">
+    <span class="badge">Final game — show what you know!</span>
+    <h2 class="card-title">👑 The Boss Round</h2>
+    <p class="card-sub">Eight questions cover every concept. Answer to earn stars and crown your carnival run!</p>
+
+    <div class="progress-track"><div class="progress-fill" id="bossProgress" style="width:0%;"></div></div>
+    <p id="bossStatus" style="font-weight:600; margin-bottom:8px;">Question <span id="qNum">1</span> of 8 • Score <span id="qScore">0</span></p>
+
+    <div class="boss-q" id="bossQ">Loading question…</div>
+    <div class="choice-grid" id="bossChoices"></div>
+    <div class="feedback" id="bossFb"></div>
+
+    <div class="star-prize" id="bossPrize" style="display:none;">
+      <div class="stars" id="prizeStars"></div>
+      <p id="prizeMsg"></p>
+      <button class="big-btn" id="bossRestart" style="margin-top:16px;">Play Again 🔁</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Mascot -->
+<div class="mascot-bubble" id="bubble">Tap me anytime for a hint! 💡</div>
+<div class="mascot" id="mascot" title="Hint Pal">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="55" r="38" fill="#ffd23f" stroke="#1a1423" stroke-width="4"/>
+    <circle cx="38" cy="48" r="5" fill="#1a1423"/>
+    <circle cx="62" cy="48" r="5" fill="#1a1423"/>
+    <circle cx="40" cy="46" r="1.5" fill="white"/>
+    <circle cx="64" cy="46" r="1.5" fill="white"/>
+    <path d="M 35 65 Q 50 78 65 65" stroke="#1a1423" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <circle cx="28" cy="62" r="4" fill="#ff3d8b" opacity="0.6"/>
+    <circle cx="72" cy="62" r="4" fill="#ff3d8b" opacity="0.6"/>
+    <path d="M 30 20 L 35 8 L 45 18 Z" fill="#ff3d8b" stroke="#1a1423" stroke-width="3"/>
+    <path d="M 55 18 L 65 8 L 70 20 Z" fill="#06d6a0" stroke="#1a1423" stroke-width="3"/>
+  </svg>
+</div>
+
+<footer>
+  Made for curious 7th-grade minds. ✨ Roll, spin, flip — and learn how chance really works.
+</footer>
+
+<script>
+/* =====================================================
+   STATE
+   ===================================================== */
+let tickets = 0;
+const ticketEl = document.getElementById('ticketCount');
+function addTickets(n=1){
+  tickets += n;
+  ticketEl.textContent = tickets;
+  ticketEl.classList.remove('pop'); void ticketEl.offsetWidth;
+  ticketEl.classList.add('pop');
+}
+
+/* ============ TABS ============ */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.panel).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+
+/* =====================================================
+   GAME 1 — LIKELIHOOD LANE
+   ===================================================== */
+const events = [
+  { text:"The sun will rise tomorrow morning.", value:1, label:"Certain" },
+  { text:"You roll a 7 on a standard six-sided die.", value:0, label:"Impossible" },
+  { text:"You flip a fair coin and get heads.", value:0.5, label:"50–50" },
+  { text:"You draw a red marble from a bag with 9 red and 1 blue.", value:0.9, label:"Likely" },
+  { text:"You pick the ace of spades from a shuffled deck of 52 cards.", value:0.02, label:"Unlikely" },
+  { text:"You roll an even number on a six-sided die.", value:0.5, label:"50–50" },
+  { text:"You draw a green ball from a bag of only red balls.", value:0, label:"Impossible" },
+  { text:"It will snow in your city this year. (depends, but assume Northern hemisphere & generally yes)", value:0.75, label:"Likely" },
+  { text:"You roll a number less than 7 on a six-sided die.", value:1, label:"Certain" },
+  { text:"You spin a fair spinner divided into 4 equal parts and land on red (1 part is red).", value:0.25, label:"Unlikely" }
+];
+const labelOptions = ["Impossible","Unlikely","50–50","Likely","Certain"];
+let curEv = 0;
+
+function loadScenario(){
+  const ev = events[curEv % events.length];
+  document.getElementById('scenario').textContent = ev.text;
+  const grid = document.getElementById('choices');
+  grid.innerHTML = '';
+  labelOptions.forEach(opt=>{
+    const b = document.createElement('button');
+    b.className = 'choice';
+    b.textContent = opt;
+    b.addEventListener('click', ()=>checkLikelihood(b, opt, ev));
+    grid.appendChild(b);
+  });
+  document.getElementById('fb1').classList.remove('show');
+  document.getElementById('marker').style.left = '50%';
+}
+function checkLikelihood(btn, picked, ev){
+  document.querySelectorAll('#choices .choice').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('fb1');
+  document.getElementById('marker').style.left = (ev.value * 100) + '%';
+  if(picked === ev.label){
+    btn.classList.add('correct');
+    fb.className = 'feedback show good';
+    fb.innerHTML = `🎉 <strong>Yes!</strong> This event is <em>${ev.label}</em>. Probability ≈ <strong>${ev.value}</strong>.`;
+    addTickets(1);
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback show bad';
+    fb.innerHTML = `So close! The answer is <strong>${ev.label}</strong> (probability ≈ ${ev.value}). Watch where the marker landed on the line — that's the clue.`;
+  }
+}
+document.getElementById('nextScenario').addEventListener('click', ()=>{
+  curEv++;
+  loadScenario();
+});
+loadScenario();
+
+/* =====================================================
+   GAME 2 — SPINNER
+   ===================================================== */
+const spinnerData = [
+  { color:'#ff3d8b', label:'Pink', weight:3 },
+  { color:'#06d6a0', label:'Teal', weight:3 },
+  { color:'#ffd23f', label:'Yellow', weight:1 },
+  { color:'#118ab2', label:'Blue', weight:1 }
+];
+const totalSpinWeight = spinnerData.reduce((s,d)=>s+d.weight,0);
+const spinCounts = spinnerData.map(()=>0);
+let totalSpins = 0;
+let currentRot = 0;
+
+function buildSpinner(){
+  const svg = document.getElementById('spinnerSvg');
+  svg.innerHTML = '';
+  let cum = 0;
+  const R = 100;
+  spinnerData.forEach((seg,i)=>{
+    const angle = (seg.weight/totalSpinWeight) * 2*Math.PI;
+    const start = cum;
+    const end = cum + angle;
+    cum = end;
+    const x1 = R*Math.cos(start-Math.PI/2);
+    const y1 = R*Math.sin(start-Math.PI/2);
+    const x2 = R*Math.cos(end-Math.PI/2);
+    const y2 = R*Math.sin(end-Math.PI/2);
+    const large = angle > Math.PI ? 1 : 0;
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', `M 0 0 L ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} Z`);
+    path.setAttribute('fill', seg.color);
+    path.setAttribute('stroke', '#1a1423');
+    path.setAttribute('stroke-width', '3');
+    svg.appendChild(path);
+    // label
+    const mid = (start+end)/2;
+    const lx = (R*0.65)*Math.cos(mid-Math.PI/2);
+    const ly = (R*0.65)*Math.sin(mid-Math.PI/2);
+    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x', lx); txt.setAttribute('y', ly+5);
+    txt.setAttribute('text-anchor','middle');
+    txt.setAttribute('font-family','Bungee, cursive');
+    txt.setAttribute('font-size','13');
+    txt.setAttribute('fill','#1a1423');
+    txt.textContent = seg.label[0];
+    svg.appendChild(txt);
+  });
+  // inner circle
+  const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',0); c.setAttribute('cy',0); c.setAttribute('r',14);
+  c.setAttribute('fill','#1a1423');
+  svg.appendChild(c);
+}
+buildSpinner();
+
+function renderSpinStats(){
+  const wrap = document.getElementById('spinStats');
+  wrap.innerHTML = '';
+  spinnerData.forEach((seg,i)=>{
+    const c = spinCounts[i];
+    const exp = totalSpins ? c/totalSpins : 0;
+    const theo = seg.weight/totalSpinWeight;
+    const row = document.createElement('div');
+    row.className = 'stat-row';
+    row.innerHTML = `
+      <div class="stat-color" style="background:${seg.color};"></div>
+      <div style="min-width:60px;">${seg.label}</div>
+      <div class="stat-bars"><div class="stat-fill" style="width:${exp*100}%; background:${seg.color};"></div></div>
+      <div class="stat-num">${c} / ${totalSpins}</div>
+    `;
+    wrap.appendChild(row);
+  });
+  if(totalSpins){
+    const summary = document.createElement('div');
+    summary.style.cssText = 'margin-top:14px; font-size:0.95rem; line-height:1.5;';
+    summary.innerHTML = spinnerData.map((seg,i)=>{
+      const exp = (spinCounts[i]/totalSpins);
+      const theo = seg.weight/totalSpinWeight;
+      return `<div><strong style="color:${seg.color};">${seg.label}:</strong> Theoretical = ${theo.toFixed(3)}, Experimental = ${exp.toFixed(3)}</div>`;
+    }).join('');
+    wrap.appendChild(summary);
+  }
+}
+renderSpinStats();
+
+function pickSegment(){
+  let r = Math.random()*totalSpinWeight;
+  for(let i=0;i<spinnerData.length;i++){
+    r -= spinnerData[i].weight;
+    if(r <= 0) return i;
+  }
+  return spinnerData.length-1;
+}
+function doSpins(n, animate=false){
+  if(animate){
+    const idx = pickSegment();
+    // compute angle so spinner lands on this segment
+    let cum = 0;
+    for(let i=0;i<idx;i++) cum += spinnerData[i].weight;
+    const segAngle = (spinnerData[idx].weight/totalSpinWeight)*360;
+    const startAngle = (cum/totalSpinWeight)*360;
+    const targetMid = startAngle + segAngle/2;
+    // pointer is at top (0deg), so we need spinner to rotate so that 360-targetMid is at top
+    const offset = 360 - targetMid;
+    currentRot += 360*5 + (offset - (currentRot % 360));
+    document.getElementById('spinnerSvg').style.transform = `rotate(${currentRot}deg)`;
+    spinCounts[idx]++;
+    totalSpins++;
+    setTimeout(renderSpinStats, 4100);
+    if(spinCounts[idx]===1 && totalSpins<=2) addTickets(1);
+  } else {
+    for(let i=0;i<n;i++){
+      spinCounts[pickSegment()]++;
+      totalSpins++;
+    }
+    renderSpinStats();
+    addTickets(2);
+  }
+}
+document.getElementById('spinOne').addEventListener('click', ()=>doSpins(1, true));
+document.getElementById('spinHundred').addEventListener('click', ()=>doSpins(100, false));
+document.getElementById('resetSpinner').addEventListener('click', ()=>{
+  spinCounts.fill(0);
+  totalSpins = 0;
+  renderSpinStats();
+  currentRot = 0;
+  document.getElementById('spinnerSvg').style.transition = 'none';
+  document.getElementById('spinnerSvg').style.transform = 'rotate(0deg)';
+  setTimeout(()=>document.getElementById('spinnerSvg').style.transition = '', 50);
+});
+
+/* =====================================================
+   GAME 3 — SAMPLE SPACE
+   ===================================================== */
+const expDefs = {
+  coin: { name:'Coin', items:['H','T'], colors:['#ffd23f','#06d6a0'] },
+  die:  { name:'Die',  items:['1','2','3','4','5','6'], colors:Array(6).fill('#fff') },
+  color:{ name:'Color',items:['R','G','B'], colors:['#ff3d8b','#06d6a0','#118ab2'] }
+};
+let ssQuestionFn = null;
+
+function buildSampleSpace(){
+  const e1 = document.getElementById('exp1').value;
+  const e2 = document.getElementById('exp2').value;
+  const a = expDefs[e1].items, b = expDefs[e2].items;
+  const grid = document.getElementById('ssGrid');
+  grid.style.gridTemplateColumns = `repeat(${b.length+1}, minmax(0,1fr))`;
+  grid.innerHTML = '';
+  // header row
+  grid.appendChild(emptyHeader());
+  b.forEach(v=>grid.appendChild(headerCell(v)));
+  a.forEach(av=>{
+    grid.appendChild(headerCell(av));
+    b.forEach(bv=>{
+      const cell = document.createElement('div');
+      cell.className = 'ss-cell';
+      cell.dataset.a = av;
+      cell.dataset.b = bv;
+      cell.textContent = `${av},${bv}`;
+      grid.appendChild(cell);
+    });
+  });
+  // build question pills
+  buildQuestions(e1,e2);
+  document.getElementById('ssAnswer').textContent = `P(event) = ?`;
+}
+function emptyHeader(){ const d = document.createElement('div'); d.className='ss-cell ss-header'; d.textContent='×'; return d; }
+function headerCell(t){ const d = document.createElement('div'); d.className='ss-cell ss-header'; d.textContent=t; return d; }
+
+function buildQuestions(e1,e2){
+  const wrap = document.getElementById('ssQuestions');
+  wrap.innerHTML = '';
+  const items1 = expDefs[e1].items, items2 = expDefs[e2].items;
+  const total = items1.length * items2.length;
+
+  function addPill(label, predicate){
+    const p = document.createElement('button');
+    p.className = 'pill';
+    p.textContent = label;
+    p.addEventListener('click', ()=>{
+      document.querySelectorAll('#ssQuestions .pill').forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');
+      const cells = document.querySelectorAll('#ssGrid .ss-cell:not(.ss-header)');
+      let fav = 0;
+      cells.forEach(c=>{
+        if(predicate(c.dataset.a, c.dataset.b)){
+          c.classList.add('highlighted');
+          c.classList.remove('dimmed');
+          fav++;
+        } else {
+          c.classList.add('dimmed');
+          c.classList.remove('highlighted');
+        }
+      });
+      // simplify fraction
+      const g = gcd(fav,total);
+      const simp = g ? `${fav/g}/${total/g}` : `${fav}/${total}`;
+      const dec = total? (fav/total).toFixed(3) : '0';
+      document.getElementById('ssAnswer').innerHTML = `P(${label}) = <strong>${fav}/${total}</strong> = ${simp} ≈ ${dec}`;
+      addTickets(1);
+    });
+    wrap.appendChild(p);
+  }
+
+  // Always add: matching, total
+  if(items1.join() === items2.join()){
+    addPill("Both match (same outcome)", (a,b)=>a===b);
+    addPill("Don't match", (a,b)=>a!==b);
+  }
+  // If both are dice
+  if(e1==='die' && e2==='die'){
+    addPill("Sum equals 7", (a,b)=>(+a)+(+b)===7);
+    addPill("Sum at least 10", (a,b)=>(+a)+(+b)>=10);
+    addPill("Both even", (a,b)=>(+a)%2===0 && (+b)%2===0);
+    addPill("Doubles", (a,b)=>a===b);
+  } else if(e1==='coin' && e2==='coin'){
+    addPill("Two heads", (a,b)=>a==='H'&&b==='H');
+    addPill("At least one head", (a,b)=>a==='H'||b==='H');
+    addPill("Exactly one tail", (a,b)=>(a==='T'?1:0)+(b==='T'?1:0)===1);
+  } else if((e1==='coin' && e2==='die')||(e1==='die' && e2==='coin')){
+    const dieFirst = e1==='die';
+    addPill("Heads & even", (a,b)=>{
+      const coin = dieFirst?b:a; const die = dieFirst?a:b;
+      return coin==='H' && (+die)%2===0;
+    });
+    addPill("Tails & roll > 4", (a,b)=>{
+      const coin = dieFirst?b:a; const die = dieFirst?a:b;
+      return coin==='T' && (+die)>4;
+    });
+    addPill("Heads", (a,b)=>{ const coin = dieFirst?b:a; return coin==='H'; });
+  } else if(e1==='color' && e2==='color'){
+    addPill("Both same color", (a,b)=>a===b);
+    addPill("At least one Red", (a,b)=>a==='R'||b==='R');
+  } else {
+    addPill("First experiment first option", (a,b)=>a===items1[0]);
+    addPill("Second experiment first option", (a,b)=>b===items2[0]);
+  }
+}
+function gcd(a,b){ if(!b) return a; return gcd(b, a%b); }
+document.getElementById('exp1').addEventListener('change', buildSampleSpace);
+document.getElementById('exp2').addEventListener('change', buildSampleSpace);
+buildSampleSpace();
+
+/* =====================================================
+   GAME 4 — SIMULATION
+   ===================================================== */
+let simHeads = 0, simTails = 0, simTotal = 0;
+const simHistory = []; // ratio over time samples
+const MAX_POINTS = 200;
+
+function doFlips(n){
+  let lastResult = null;
+  for(let i=0;i<n;i++){
+    const r = Math.random() < 0.5;
+    if(r){ simHeads++; lastResult='H'; } else { simTails++; lastResult='T'; }
+    simTotal++;
+    // sample point every so often
+    if(simTotal % Math.max(1, Math.floor(n/40)) === 0 || n<=10){
+      simHistory.push({ t:simTotal, p:simHeads/simTotal });
+      if(simHistory.length>MAX_POINTS) simHistory.shift();
+    }
+  }
+  document.getElementById('simLast').innerHTML = (lastResult==='H')
+    ? '🟡 <span style="color:var(--pink);">HEADS</span>'
+    : '⚪ <span style="color:var(--blue);">TAILS</span>';
+  document.getElementById('simTotal').textContent = simTotal;
+  document.getElementById('simHeads').textContent = simHeads;
+  document.getElementById('simTails').textContent = simTails;
+  const ratio = simTotal? (simHeads/simTotal) : 0;
+  document.getElementById('simRatio').textContent = simTotal? ratio.toFixed(3) : '—';
+  drawSimChart();
+  addTickets(Math.max(1, Math.floor(n/100)));
+}
+function drawSimChart(){
+  if(!simHistory.length){
+    document.getElementById('simLine').setAttribute('points','');
+    return;
+  }
+  const W = 400, H = 200;
+  const maxT = simHistory[simHistory.length-1].t;
+  const minT = simHistory[0].t;
+  const range = Math.max(1, maxT - minT);
+  const pts = simHistory.map(d=>{
+    const x = ((d.t - minT)/range) * W;
+    const y = H - d.p*H; // p:0->bottom; p:1->top, but flip so 0 at bottom
+    return `${x},${y}`;
+  });
+  document.getElementById('simLine').setAttribute('points', pts.join(' '));
+}
+document.getElementById('flip10').addEventListener('click', ()=>doFlips(10));
+document.getElementById('flip100').addEventListener('click', ()=>doFlips(100));
+document.getElementById('flip1000').addEventListener('click', ()=>doFlips(1000));
+document.getElementById('resetSim').addEventListener('click', ()=>{
+  simHeads=0; simTails=0; simTotal=0;
+  simHistory.length=0;
+  document.getElementById('simTotal').textContent = 0;
+  document.getElementById('simHeads').textContent = 0;
+  document.getElementById('simTails').textContent = 0;
+  document.getElementById('simRatio').textContent = '—';
+  document.getElementById('simLast').innerHTML = '⚪';
+  drawSimChart();
+});
+
+/* =====================================================
+   GAME 5 — BOSS ROUND
+   ===================================================== */
+const bossQs = [
+  {
+    q: "A bag has 4 red, 3 blue, and 3 green marbles. You draw one without looking. What is P(red)?",
+    options: ["3/10", "4/10 = 2/5", "1/2", "4/3"],
+    correct: 1,
+    why: "There are 10 marbles total, 4 of which are red, so P(red) = 4/10 = 2/5."
+  },
+  {
+    q: "You roll a fair six-sided die. Which event is MOST likely?",
+    options: ["Rolling a 6", "Rolling an even number", "Rolling a number greater than 5", "Rolling exactly 3"],
+    correct: 1,
+    why: "Even numbers are 2, 4, 6 — that's 3 out of 6 outcomes (P = 1/2). The others all have P = 1/6."
+  },
+  {
+    q: "A spinner is divided into 8 equal parts: 3 red, 2 blue, 3 yellow. What is the theoretical P(blue)?",
+    options: ["2/8 = 1/4", "1/2", "3/8", "1/8"],
+    correct: 0,
+    why: "2 blue parts out of 8 total parts means P(blue) = 2/8 = 1/4."
+  },
+  {
+    q: "You flip a coin 20 times and get heads 13 times. What is the EXPERIMENTAL probability of heads?",
+    options: ["1/2", "13/20", "7/20", "20/13"],
+    correct: 1,
+    why: "Experimental P = (times event happened) / (total trials) = 13/20."
+  },
+  {
+    q: "You flip two coins. What is P(both heads)?",
+    options: ["1/2", "1/3", "1/4", "2/4"],
+    correct: 2,
+    why: "Sample space: HH, HT, TH, TT — 4 outcomes. Only HH gives two heads. P = 1/4."
+  },
+  {
+    q: "An event has probability 0. This means…",
+    options: ["It will probably happen", "It cannot happen", "It will definitely happen", "It happens half the time"],
+    correct: 1,
+    why: "Probability 0 = impossible. Probability 1 = certain. Everything else is in between."
+  },
+  {
+    q: "You roll two dice. What is P(sum = 7)?",
+    options: ["1/6", "1/12", "1/36", "7/36"],
+    correct: 0,
+    why: "There are 36 outcomes. Six of them sum to 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1). P = 6/36 = 1/6."
+  },
+  {
+    q: "Why does experimental probability get CLOSER to theoretical probability as you do more trials?",
+    options: ["Trials reset luck", "The Law of Large Numbers — random results average out over many trials", "Computers cheat", "It doesn't, it gets further away"],
+    correct: 1,
+    why: "The Law of Large Numbers: with more trials, short-run randomness smooths out and experimental probability approaches the theoretical value."
+  }
+];
+let bossIdx = 0, bossScore = 0;
+function loadBoss(){
+  if(bossIdx >= bossQs.length){
+    showPrize();
+    return;
+  }
+  const q = bossQs[bossIdx];
+  document.getElementById('qNum').textContent = bossIdx+1;
+  document.getElementById('qScore').textContent = bossScore;
+  document.getElementById('bossProgress').style.width = ((bossIdx)/bossQs.length*100)+'%';
+  document.getElementById('bossQ').textContent = q.q;
+  document.getElementById('bossPrize').style.display = 'none';
+  const choices = document.getElementById('bossChoices');
+  choices.innerHTML = '';
+  q.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'choice';
+    b.textContent = opt;
+    b.addEventListener('click', ()=>answerBoss(b, i, q));
+    choices.appendChild(b);
+  });
+  document.getElementById('bossFb').classList.remove('show');
+}
+function answerBoss(btn, picked, q){
+  document.querySelectorAll('#bossChoices .choice').forEach(b=>b.disabled = true);
+  const fb = document.getElementById('bossFb');
+  if(picked === q.correct){
+    btn.classList.add('correct');
+    fb.className = 'feedback show good';
+    fb.innerHTML = `✅ <strong>Correct!</strong> ${q.why}`;
+    bossScore++;
+    addTickets(2);
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#bossChoices .choice')[q.correct].classList.add('correct');
+    fb.className = 'feedback show bad';
+    fb.innerHTML = `Not quite. ${q.why}`;
+  }
+  // auto-advance
+  setTimeout(()=>{
+    bossIdx++;
+    loadBoss();
+  }, 2600);
+}
+function showPrize(){
+  document.getElementById('bossQ').textContent = "🎉 You finished the carnival!";
+  document.getElementById('bossChoices').innerHTML = '';
+  document.getElementById('bossFb').classList.remove('show');
+  document.getElementById('bossProgress').style.width = '100%';
+  document.getElementById('qNum').textContent = bossQs.length;
+  document.getElementById('qScore').textContent = bossScore;
+  const prize = document.getElementById('bossPrize');
+  prize.style.display = 'block';
+  const stars = bossScore >= 7 ? "⭐⭐⭐" : bossScore >= 5 ? "⭐⭐" : bossScore >= 3 ? "⭐" : "🎟️";
+  document.getElementById('prizeStars').textContent = stars;
+  const msg = bossScore >= 7
+    ? "Probability Champion! You crushed it. 🏆"
+    : bossScore >= 5
+    ? "Solid work! You've got the big ideas down."
+    : bossScore >= 3
+    ? "Good effort — replay the games and try again!"
+    : "Keep going! Probability takes practice. Replay the games and try again.";
+  document.getElementById('prizeMsg').textContent = `${bossScore}/${bossQs.length} correct. ${msg}`;
+}
+document.getElementById('bossRestart').addEventListener('click', ()=>{
+  bossIdx = 0; bossScore = 0;
+  loadBoss();
+});
+loadBoss();
+
+/* =====================================================
+   MASCOT HINTS
+   ===================================================== */
+const hints = [
+  "Probability is always between 0 and 1. 💡",
+  "P(event) = favorable outcomes ÷ total outcomes 🎯",
+  "Theoretical = math says so. Experimental = data shows so. 📊",
+  "Compound events? Build a sample-space grid! 🎲🎲",
+  "More trials → experimental gets closer to theoretical. ⚡",
+  "P(not A) = 1 − P(A). Always! 🔄",
+  "Equally likely outcomes are the easiest case. 🟰"
+];
+const bubble = document.getElementById('bubble');
+let bubbleTimer;
+document.getElementById('mascot').addEventListener('click', ()=>{
+  bubble.textContent = hints[Math.floor(Math.random()*hints.length)];
+  bubble.classList.add('show');
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(()=>bubble.classList.remove('show'), 4000);
+});
+// initial peek
+setTimeout(()=>{
+  bubble.textContent = "Hey! Click any game above to start. 🎪";
+  bubble.classList.add('show');
+  setTimeout(()=>bubble.classList.remove('show'), 4500);
+}, 1200);
+
+</script>
+</body>
+</html>
